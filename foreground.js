@@ -62,12 +62,24 @@ function addButton() {
   });
 }
 
-function startExtension() {
-  const target = document.querySelector("#ghx-work");
+function setWrapperObserver() {
+  const target = document.querySelector("#ghx-pool-wrapper");
   new MutationObserver(function (mutations) {
     addButton();
   }).observe(target, {
-    subtree: true,
+    subtree: false,
+    childList: true,
+  });
+}
+
+function startExtension() {
+  const target = document.querySelector("#ghx-work");
+  new MutationObserver(function (mutations) {
+    this.disconnect();
+    setWrapperObserver();
+    addButton();
+  }).observe(target, {
+    subtree: false,
     childList: true,
   });
 }

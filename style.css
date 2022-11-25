@@ -1,0 +1,18 @@
+#ak-extension-copy-button {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  z-index: 1000;
+  height: 20px;
+}
+
+#ak-extension-copy-button:hover svg{
+  fill: #000;
+}
+
+#ak-extension-copy-button:active svg{
+  fill: green;
+}
+
+

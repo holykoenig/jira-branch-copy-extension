@@ -1,5 +1,9 @@
 # jira-branch-copy-extension
 
+
+![Alt text](./jira-ticket.png "jira-ticket")
+![Alt text](./paste.png "paste")
+
 ## Installation
 - Simply download a zip of the repo and unzip it on your computer.
 - **Open [the extensions page](chrome://extensions)** in your browser: `chrome://extensions`. This link works on any chromium-based browser.

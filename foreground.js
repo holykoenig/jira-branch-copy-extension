@@ -35,20 +35,35 @@ const snakeCase = (string) => {
 
 function addButton() {
   const items = document.querySelectorAll(".js-detailview");
-  if(!items) return;
+  if (!items) return;
   items.forEach((item) => {
     const buttonId = "ak-extension-copy-button";
-    if(item.querySelector(buttonId)) return;
+    if (item.querySelector(`#${buttonId}`)) return;
     const titleSelector = item.querySelector(".ghx-key");
-    const tub = titleSelector.textContent;
-    const title = item.querySelector(".ghx-summary").textContent;
+    const tub = titleSelector.textContent.trim();
+    const title = item.querySelector(".ghx-summary").textContent.trim();
+
     const titleUmlaute = replaceUmlaute(title);
-    const branchName = `${tub}_${snakeCase(titleUmlaute)}`; //.slice(0,35)
+    let cleanedTitle = titleUmlaute.replace(/\[[^\]]*\]/g, "").trim();
+
+    cleanedTitle = cleanedTitle
+      .replace(/([a-z])([A-Z])/g, "$1-$2")
+      .toLowerCase();
+
+    cleanedTitle = cleanedTitle.replace(/ - /g, "_");
+    cleanedTitle = cleanedTitle.replace(/\s+/g, "_");
+
+    if (cleanedTitle.length > 35) {
+      let sliceIndex = cleanedTitle.lastIndexOf("_", 35);
+      if (sliceIndex === -1 || sliceIndex > 45) sliceIndex = 45;
+      cleanedTitle = cleanedTitle.substring(0, sliceIndex);
+    }
+
+    const branchName = `${tub}_${cleanedTitle}`.replace(/^_+|_+$/g, "");
     const checkoutCommand = `git checkout -B feature/${branchName}`;
 
     const copyBtn = document.createElement("button");
     copyBtn.setAttribute("id", buttonId);
-
     copyBtn.innerHTML = `<svg height="18px" width="18px" fill="#5e6c84" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>`;
 
     copyBtn.onclick = function (e) {
